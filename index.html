@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarence Pfister — Robotics Portfolio</title>
+<meta name="description" content="Robotics engineer: humanoid robots, reinforcement learning, sim-to-real, perception and navigation.">
+<style>
+  :root {
+    --ink: #1d2433; --muted: #4a5568; --accent: #2f5aa8;
+    --bg: #ffffff; --side: #e9f0fb; --head: #9fb6dc; --rule: #c9d6ee; --card: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e6ebf5; --muted: #a9b4c8; --accent: #8fb0ec;
+      --bg: #11161f; --side: #1a2230; --head: #22324f; --rule: #2c3a55; --card: #161d29;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+
+  header { background: var(--head); padding: 48px 0 32px; }
+  header h1 { font-size: 2.2rem; line-height: 1.1; }
+  header .title { font-weight: 600; margin-top: 6px; font-size: 1.1rem; }
+  header .links { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .95rem; }
+  header .links a { color: inherit; font-weight: 600; }
+  .intro { margin: 28px 0 8px; font-size: 1.05rem; max-width: 70ch; }
+
+  h2 {
+    font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin: 40px 0 18px;
+  }
+  .project {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;
+    padding: 20px; margin-bottom: 20px; background: var(--card);
+    border: 1px solid var(--rule); border-radius: 10px;
+  }
+  .project h3 { font-size: 1.15rem; line-height: 1.3; }
+  .meta { color: var(--muted); font-size: .88rem; margin: 2px 0 10px; }
+  .project p, .project li { font-size: .95rem; }
+  .project ul { padding-left: 18px; margin-top: 6px; }
+  .project li { margin-bottom: 4px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tags span { background: var(--side); border-radius: 999px; padding: 2px 10px; font-size: .78rem; color: var(--muted); }
+
+  .media { display: flex; flex-direction: column; gap: 10px; }
+  .media video, .media img, .media iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 8px; background: #000; object-fit: cover; }
+  /* Placeholder until a cleared video is added */
+  .slot {
+    aspect-ratio: 16 / 9; border: 2px dashed var(--rule); border-radius: 8px; background: var(--side);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 12px; color: var(--muted); font-size: .85rem;
+  }
+  figcaption { color: var(--muted); font-size: .82rem; }
+  .media video.tall { aspect-ratio: 9 / 16; max-height: 480px; object-fit: contain; }
+  .sims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .sims figure { display: flex; flex-direction: column; gap: 4px; }
+  .sims video { aspect-ratio: 16 / 9; }
+  .repos { margin-top: 10px; font-size: .88rem; }
+  .project.text-only { grid-template-columns: 1fr; }
+
+  footer { margin: 48px 0 40px; color: var(--muted); font-size: .9rem; }
+
+  @media (max-width: 720px) {
+    .project { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Clarence Pfister</h1>
+    <div class="title">Robotics Engineer — Humanoid Robots, Learning-Based Control, Perception</div>
+    <div class="links">
+      <a href="mailto:clarencepfister@gmail.com">clarencepfister@gmail.com</a>
+      <a href="https://github.com/Clarence-Pfister">GitHub</a>
+      <a href="cv_clarence_pfister_2026_en.pdf">CV (PDF)</a>
+      <span>Paris, France · available now</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="intro">
+    Robotics engineer (Polytech Sorbonne, 2026). I spent six months taking a Unitree G1 humanoid from
+    simulation to the real robot: reinforcement-learning environments in Isaac Lab, Sim2Sim validation in
+    MuJoCo, deployment on hardware. Before that, RGB-D perception for outdoor robots and autonomous
+    navigation on a TurtleBot4. Japanese, French, English.
+  </p>
+
+  <h2>Humanoid robotics — Unitree G1 (2026)</h2>
+
+  <article class="project">
+    <div>
+      <h3>Teaching a humanoid to jump with reinforcement learning</h3>
+      <div class="meta">Personal R&amp;D · final-year internship, KUFUSHA (Japan)</div>
+      <p>Custom Isaac Lab environment trained with PPO (RSL-RL) to make the G1 track a reference jump.</p>
+      <ul>
+        <li>Six-phase reward machine (idle, crouch, take-off, flight, landing, stand) with per-phase weights, reference-state initialization, early terminations, per-joint action scaling.</li>
+        <li>Training plateaued: I traced it to a conflict between the tracking reward and the termination penalty. After the fix, the policy tracked the reference with zero falls.</li>
+        <li>Validated Sim2Sim in MuJoCo, exported to ONNX.</li>
+      </ul>
+      <div class="tags"><span>Isaac Lab</span><span>PPO</span><span>Reward design</span><span>MuJoCo</span><span>ONNX</span></div>
+      <div class="repos">Code: <a href="https://github.com/Clarence-Pfister/IsaacLab">IsaacLab fork (G1 jump task)</a></div>
+    </div>
+    <figure class="media">
+      <video src="media/jump_reference.mp4" autoplay muted loop playsinline></video>
+      <figcaption>Reference jump generated from text with KiMoDo.</figcaption>
+      <div class="sims">
+        <figure><video src="media/jump_sim_initial.mp4" poster="media/jump_sim_initial.jpg" muted loop playsinline controls preload="none"></video><figcaption>Initial</figcaption></figure>
+        <figure><video src="media/jump_sim_intermediate.mp4" poster="media/jump_sim_intermediate.jpg" muted loop playsinline controls preload="none"></video><figcaption>Intermediate</figcaption></figure>
+        <figure><video src="media/jump_sim_final.mp4" poster="media/jump_sim_final.jpg" muted loop playsinline controls preload="none"></video><figcaption>Current</figcaption></figure>
+      </div>
+      <figcaption>Isaac Lab: the policy across environment versions.</figcaption>
+      <video src="media/jump_real_g1.mp4" poster="media/jump_real_g1.jpg" muted playsinline controls preload="none"></video>
+      <figcaption>On the real G1.</figcaption>
+    </figure>
+  </article>
+
+  <article class="project text-only">
+    <div>
+      <h3>Sim-to-real: a learned dance policy on the physical robot</h3>
+      <div class="meta">Client project · 2026</div>
+      <p>Bringing a motion-tracking policy trained in simulation onto the real G1.</p>
+      <ul>
+        <li>Domain randomization; observations restricted to what the real sensors provide.</li>
+        <li>Sim2Sim check in MuJoCo before every hardware test; ONNX deployment.</li>
+        <li>Reference motions generated from text (KiMoDo) or video (GEM-X), retargeted to the G1 with Holosoma.</li>
+      </ul>
+      <div class="tags"><span>Sim2Real</span><span>Domain randomization</span><span>Motion retargeting</span><span>SMPL-X</span></div>
+      <div class="repos">Code: <a href="https://github.com/Clarence-Pfister/ProtoMotions">ProtoMotions</a> ·
+        <a href="https://github.com/Clarence-Pfister/RoboJuDo">RoboJuDo</a> ·
+        <a href="https://github.com/Clarence-Pfister/GEM-X">GEM-X</a> ·
+        <a href="https://github.com/Clarence-Pfister/Holosoma">Holosoma</a> ·
+        <a href="https://github.com/Clarence-Pfister/SOMA-Retargeter">SOMA-Retargeter</a> (forks with G1 23-DoF support)</div>
+    </div>
+  </article>
+
+  <article class="project text-only">
+    <div>
+      <h3>A humanoid that drives: vision + PID ankle control</h3>
+      <div class="meta">Client project · 2026</div>
+      <p>The G1 sits in a driving simulator and holds a target speed with its foot on the pedal.</p>
+      <ul>
+        <li>Camera + OCR reads the speed from the dashboard; PID control on the ankle joint.</li>
+        <li>Steady 60 km/h (±1 km/h); low-pass filtering removed pedal hammering.</li>
+        <li>Demonstrated live at the client's technical review.</li>
+      </ul>
+      <div class="tags"><span>OCR</span><span>PID</span><span>Unitree SDK (DDS)</span><span>Closed-loop control</span></div>
+    </div>
+  </article>
+
+  <article class="project">
+    <div>
+      <h3>Robot model and imitation-learning data bench</h3>
+      <div class="meta">Infrastructure · 2026</div>
+      <ul>
+        <li>23-DoF G1 model (MJCF + USD) matching the real robot's joints and limits, used across Isaac Lab and MuJoCo.</li>
+        <li>Data-acquisition bench for imitation learning: PIKA gripper, 6-DoF hand tracking, recording to LeRobot datasets.</li>
+      </ul>
+      <div class="tags"><span>MJCF / URDF / USD</span><span>LeRobot</span><span>Teleoperation</span></div>
+    </div>
+    <figure class="media">
+      <video class="tall" src="media/pika_data.mp4" muted loop playsinline controls preload="metadata"></video>
+      <figcaption>PIKA data-acquisition bench.</figcaption>
+    </figure>
+  </article>
+
+  <h2>Perception &amp; navigation</h2>
+
+  <article class="project">
+    <div>
+      <h3>Autonomous exploration on a TurtleBot4</h3>
+      <div class="meta">Engineering school project (pair) · Nov 2025 – Feb 2026</div>
+      <p>Mapping with SLAM (slam_toolbox); my part was the planning stack on top of the map.</p>
+      <ul>
+        <li>A* global planner on the occupancy grid.</li>
+        <li>DWA local planner with obstacles extracted from the LiDAR scan.</li>
+        <li>Autonomous return to the start pose.</li>
+      </ul>
+      <div class="tags"><span>ROS 2</span><span>SLAM</span><span>A*</span><span>DWA</span><span>LiDAR</span></div>
+    </div>
+    <figure class="media">
+      <div class="slot">IMAGE — map + planned path (RViz)</div>
+    </figure>
+  </article>
+
+  <article class="project text-only">
+    <div>
+      <h3>Traversable terrain and tall-grass height from RGB-D</h3>
+      <div class="meta">Internship, KUFUSHA (Japan) · Jun – Aug 2025</div>
+      <ul>
+        <li>Point-cloud processing and semantic segmentation on Intel RealSense data.</li>
+        <li>CPU/GPU performance optimization; packaged with ROS 2 and Docker.</li>
+      </ul>
+      <div class="tags"><span>RGB-D</span><span>Point clouds</span><span>Segmentation</span><span>ROS 2</span><span>Docker</span></div>
+    </div>
+  </article>
+
+  <footer>
+    Clarence Pfister · clarencepfister@gmail.com · Paris, France
+  </footer>
+</main>
+</body>
+</html>
